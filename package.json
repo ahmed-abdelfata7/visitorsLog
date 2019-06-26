@@ -1,0 +1,25 @@
+{
+  "name": "ivisit",
+  "version": "1.0.0",
+  "description": "Visitors log system for saving visitors data and provide complete history about all visitors and ability to search by name,company or filter by a time",
+  "main": "server.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EngAhmedMahmoud/visitorsLog.git"
+  },
+  "author": "EngAhmedMahmoud",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EngAhmedMahmoud/visitorsLog/issues"
+  },
+  "homepage": "https://github.com/EngAhmedMahmoud/visitorsLog#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "handlebars": "^4.1.2",
+    "jest": "^24.8.0"
+  }
+}
