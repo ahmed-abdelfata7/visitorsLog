@@ -14,4 +14,12 @@ app.use(express.static("assets"));
 app.set("view engine", "ejs");
 
 app.use("/", visitorRoutes);
+app.use((req, res, next) => {
+  res.status(404).json({
+    msg: "NotFound"
+  });
+});
+app.use((err, req, res, next) => {
+  res.status(500).json(err);
+});
 module.exports = app;
