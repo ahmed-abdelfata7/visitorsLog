@@ -1,5 +1,5 @@
 const request = require("supertest");
-const endPoints = require("./../../app");
+const endPoints = require("../app");
 
 describe("Testing Visitors routes", () => {
   test("Test Main end-point", async () => {

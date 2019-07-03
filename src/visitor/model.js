@@ -1,29 +1,22 @@
 "use strict";
 const mongoose = require("mongoose");
 const schmea = mongoose.Schema;
-const visitSchema = new schmea({
+const visitorSchema = new schmea({
   name: {
     type: String,
     required: true,
     trim: true
   },
   phone: {
-    type: Number,
+    type: String,
     required: true,
-    trim: true
+    trim: true,
+    unique: true
   },
   company: {
     type: String,
     required: true,
     trim: true
-  },
-  timeIn: {
-    type: Number,
-    default: Date.now()
-  },
-  timeOut: {
-    type: Number,
-    default: Date.now()
   }
 });
-module.exports = mongoose.model("Visit", visitSchema, "visits");
+module.exports = mongoose.model("Visitor", visitorSchema, "visitors");
