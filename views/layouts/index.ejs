@@ -61,15 +61,6 @@
             <span class="login100-form-title">
               Welcome
             </span>
-
-            <% if (msg) { %>
-            <div
-              class="wrap-input100 validate-input m-b-16"
-              style="text-align: center;color: #5cb85c; "
-            >
-              <h4><%=msg %></h4>
-            </div>
-            <% } %>
             <div
               class="wrap-input100 validate-input m-b-16"
               data-validate="Please enter name"
@@ -110,7 +101,16 @@
               />
               <span class="focus-input100"></span>
             </div>
-
+            <div
+            class="wrap-input100 validate-input m-b-16"
+            data-validate="Who you will meet?"style="margin-top:5% "
+          >
+            <input
+              class="input100"
+              type="text"
+              name="whoMeet"
+              placeholder="Who Meet?"
+            />
             <div class="container-login100-form-btn" style="margin-top:5% ">
               <button class="login100-form-btn">
                 Sign in
