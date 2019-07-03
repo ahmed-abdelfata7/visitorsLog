@@ -56,7 +56,10 @@
           Welcome
         </div>
         <div>
-          <div class="container-login100-form-btn" style="margin-top:20% ">
+          <div id="error_msg" style="margin-top: 20%"></div>
+          <div id="success_msg" style="margin-top: 20%"></div>
+
+          <div class="container-login100-form-btn" style="margin-top: 2%">
             <button class="login100-form-btn" onclick="phoneNumber('in');">
               Welcome
             </button>
@@ -77,28 +80,87 @@
       </div>
     </div>
 
-    <!-- Modal -->
+    <!-- add phone Modal -->
     <div id="myModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
         <!-- Modal content-->
         <div class="modal-content">
+          <div id="phone_error"></div>
           <div class="modal-body">
-            <form role="form" method="POST" action="/in_out">
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  type="number"
-                  name="phone"
-                  id="phone"
-                  required
-                  placeholder="Enter Your Phone Number"
-                />
-                <input type="hidden" id="type" />
-              </div>
-              <button type="submit" class="btn btn-primary">
-                Add
-              </button>
-            </form>
+            <div class="form-group">
+              <input
+                class="form-control"
+                type="number"
+                name="phone"
+                id="phone"
+                required
+                placeholder="Enter Your Phone Number"
+              />
+            </div>
+            <button class="btn btn-primary" onclick="addPhoneNumber();">
+              Add
+            </button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--modal-end-->
+
+    <!-- add phone Modal -->
+    <div id="newVisit" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div id="phone_error"></div>
+          <div class="modal-body">
+            <div class="form-group">
+              <input
+                class="form-control"
+                type="text"
+                name="name"
+                id="name"
+                required
+                placeholder="Enter Your Name"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                class="form-control"
+                type="text"
+                name="company"
+                id="company"
+                required
+                placeholder="Enter Company Name"
+              />
+            </div>
+            <div class="form-group">
+              <input
+                class="form-control"
+                type="text"
+                id="whoMeet"
+                required
+                placeholder="Who you will meet"
+              />
+            </div>
+
+            <div class="form-group">
+              <input
+                class="form-control"
+                type="number"
+                id="visitorPhone"
+                required
+                placeholder="Enter Your Phone Number"
+              />
+              <input type="hidden" id="type" name="type" />
+            </div>
+            <button class="btn btn-primary" onclick="visit();">
+              Save
+            </button>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-danger" data-dismiss="modal">
@@ -119,10 +181,77 @@
     <script src="/vendor/daterangepicker/daterangepicker.js"></script>
     <script src="/vendor/countdowntime/countdowntime.js"></script>
     <script src="/js/main.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script>
       function phoneNumber(type) {
         $("#myModal").modal("show");
         $("#type").val(type);
+      }
+      var socket = io();
+      socket.on("error", data => {
+        $("#error_msg").html(
+          `<p style="text-align: center;color:red;">${data}</p>`
+        );
+      });
+      //phone-error
+      socket.on("phone_error", data => {
+        $("#phone_error").show();
+        $("#phone_error").html(
+          `<p style="text-align: center;color:red;">${data}</p>`
+        );
+        setTimeout(() => {
+          $("#phone_error").hide();
+        }, 2000);
+      });
+      //load new-visit
+      socket.on("newVisit", data => {
+        $("#myModal").modal("hide");
+        $("#newVisit").modal("show");
+        if (data.phone) {
+          $("#visitorPhone").val(data.phone);
+        }
+        if (data.company) {
+          $("#company").val(data.company);
+        }
+        if (data.name) {
+          $("#name").val(data.name);
+        }
+      });
+      socket.on("saveVisit", data => {
+        $("#success_msg").show();
+        $("#newVisit").modal("hide");
+        $("#myModal").modal("hide");
+        $("#success_msg").html(
+          `<p style="text-align: center;color:red;">${data}</p>`
+        );
+        setTimeout(() => {
+          $("#success_msg").hide();
+        }, 2000);
+      });
+      socket.on("newVisit_error", data => {
+        $("#error_msg").show();
+        $("#newVisit").modal("hide");
+        $("#myModal").modal("hide");
+        $("#error_msg").html(
+          `<p style="text-align: center;color:red;">${data}</p>`
+        );
+        setTimeout(() => {
+          $("#error_msg").hide();
+        }, 2000);
+      });
+
+      function addPhoneNumber() {
+        let phone = $("#phone").val();
+        let type = $("#type").val();
+        socket.emit("check_phone", { phone, type });
+      }
+      function visit() {
+        let phone = $("#visitorPhone").val();
+        let type = $("#type").val();
+        let company = $("#company").val();
+        let whoMeet = $("#whoMeet").val();
+        let name = $("#name").val();
+        socket.emit("save_visit", { phone, type, company, whoMeet, name });
       }
     </script>
   </body>

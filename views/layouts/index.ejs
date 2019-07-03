@@ -68,8 +68,9 @@
               <input
                 class="input100"
                 type="text"
-                name="name"
+                value="<%=  name %>"
                 placeholder="Name"
+                name="name"
               />
               <span class="focus-input100"></span>
             </div>
@@ -81,8 +82,9 @@
               <input
                 class="input100"
                 type="text"
-                name="company"
+                value="<%= company %>"
                 placeholder="Company"
+                name="company"
               />
               <span class="focus-input100"></span>
             </div>
@@ -98,19 +100,23 @@
                 name="phone"
                 placeholder="phone"
                 maxlength="10"
+                value="<%= phone %>"
               />
               <span class="focus-input100"></span>
             </div>
             <div
-            class="wrap-input100 validate-input m-b-16"
-            data-validate="Who you will meet?"style="margin-top:5% "
-          >
-            <input
-              class="input100"
-              type="text"
-              name="whoMeet"
-              placeholder="Who Meet?"
-            />
+              class="wrap-input100 validate-input m-b-16"
+              data-validate="Who you will meet?"
+              style="margin-top:5% "
+            >
+              <input
+                class="input100"
+                type="text"
+                name="whoMeet"
+                placeholder="Who Meet?"
+              />
+              <span class="focus-input100"></span>
+            </div>
             <div class="container-login100-form-btn" style="margin-top:5% ">
               <button class="login100-form-btn">
                 Sign in

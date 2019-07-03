@@ -115,8 +115,10 @@
                         <th>Name</th>
                         <th>Company</th>
                         <th>Phone</th>
+                        <th>Who Meet</th>
                         <th>Time in</th>
                         <th>Time out</th>
+                        <th>Signture</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -125,6 +127,7 @@
                         <td><%= log.name %></td>
                         <td><%= log.company %></td>
                         <td><%= log.phone %></td>
+                        <td><%= log.whoMeet %></td>
                         <td class="center">
                           <%= new Date(log.timeIn).toISOString() %>
                         </td>
@@ -132,6 +135,7 @@
                           <% if(log.timeOut){%> <%= new
                           Date(log.timeOut).toISOString() %><%} %>
                         </td>
+                        <td></td>
                       </tr>
                       <% } %>
                     </tbody>

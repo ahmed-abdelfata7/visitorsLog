@@ -1,12 +1,19 @@
 "use strict";
 const express = require("express");
 const bodyParser = require("body-parser");
-const app = express();
 const path = require("path");
-const visitorRoutes = require("./src/visitor/route");
+const app = express();
+const http = require("http").createServer(app);
+const socket = require("./utils/socket");
+socket.initIo(http);
+const sockInterface = require("./src/socketInterface");
+
 const adminRoutes = require("./src/admin/route");
+const visitorRoutes = require("./src/visitor/route");
+
 const init = require("./utils/init");
 init();
+
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 
@@ -33,4 +40,4 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   res.status(404).render("layouts/error");
 });
-module.exports = app;
+module.exports = { app, http };

@@ -19,5 +19,9 @@ class Validator {
     });
     return errors;
   }
+  phoneNumber(phone) {
+    const pattern = /^[0-9\-\+]{9,15}$/;
+    return pattern.test(phone);
+  }
 }
 module.exports = new Validator();

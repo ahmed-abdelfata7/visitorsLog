@@ -2,7 +2,7 @@
 const mongoose = require("mongoose");
 const schmea = mongoose.Schema;
 const visitSchema = new schmea({
-  visitorId: {
+  phone: {
     type: String,
     required: true,
     trim: true

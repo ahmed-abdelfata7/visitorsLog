@@ -1,6 +1,7 @@
 "use strict";
 const admin = require("./model");
-const visitModel = require("./../visitor/model");
+const visitorModel = require("./../visitor/model");
+const visitModel = require("./../visits/model");
 const bcrypt = require("bcrypt");
 /**
  * @class Admin
@@ -42,8 +43,25 @@ class Admin {
     }
   }
   async logs() {
-    let visitorLogs = await visitModel.find().sort({ timeIn: -1 });
-    return visitorLogs;
+    let logData = [];
+    let visitorLogs = await visitorModel.find();
+    let visitLogs = await visitModel.find();
+    visitLogs.forEach(visit => {
+      let allData = {};
+      visitorLogs.forEach(visitor => {
+        if (visitor.phone === visit.phone) {
+          allData.name = visitor.name;
+          allData.company = visitor.company;
+          allData.whoMeet = visit.whoMeet;
+          allData.phone = visitor.phone;
+          allData.timeIn = visit.timeIn;
+          allData._id = visit._id;
+          allData.timeOut = visit.timeOut ? visit.timeOut : null;
+          logData.push(allData);
+        }
+      });
+    });
+    return logData;
   }
   async deleteVisit(id) {
     await visitModel.findByIdAndDelete(id);
@@ -53,12 +71,29 @@ class Admin {
     await visitModel.findByIdAndUpdate(_id, { name, company, phone, timeOut });
   }
   async searchLogs(range) {
+    let logData = [];
+    let visitorLogs = await visitorModel.find();
     let from = Date.parse(range.from);
     let to = Date.parse(range.to);
-    let result = await visitModel.find({
+    let visitLogs = await visitModel.find({
       $and: [{ timeIn: { $gt: from } }, { timeIn: { $lt: to } }]
     });
-    return result;
+    visitLogs.forEach(visit => {
+      let allData = {};
+      visitorLogs.forEach(visitor => {
+        if (visitor.phone === visit.phone) {
+          allData.name = visitor.name;
+          allData.company = visitor.company;
+          allData.whoMeet = visit.whoMeet;
+          allData.phone = visitor.phone;
+          allData.timeIn = visit.timeIn;
+          allData._id = visit._id;
+          allData.timeOut = visit.timeOut ? visit.timeOut : null;
+          logData.push(allData);
+        }
+      });
+    });
+    return logData;
   }
 }
 const adminObj = new Admin();
