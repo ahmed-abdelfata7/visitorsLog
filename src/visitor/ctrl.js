@@ -10,5 +10,6 @@ class Visitor {
     let visitor = await visitorModel.find({ phone: phoneNumber });
     return visitor.length !== 0 ? visitor[0]._id : false;
   }
+  async takeDecision(inputData) {}
 }
 module.exports = new Visitor();
